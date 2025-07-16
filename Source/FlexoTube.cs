@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 /*The MIT License (MIT)
 FlexoTube - Part module to control flexible docking ports
 
@@ -24,6 +24,7 @@ THE SOFTWARE.
 */
 #endregion
 
+using KSP.Localization;
 using System.Collections;
 using UnityEngine;
 
@@ -46,15 +47,15 @@ namespace FlexoTubes
 		[KSPField(isPersistant = true)]
 		public bool IsDeployed;
 		[KSPField(guiActive = true)]
-		public string Status = "Retracted (Basic Mode)";
+		public string Status; //  = "Retracted (Basic Mode)"; 
 		[KSPField(guiActive = true)]
-		public string Magnets = "Enabled";
+		public string Magnets; //  = "Enabled";
 		[KSPField(guiActive = true)]
 		public string MagneticForce = "";
 		[KSPField(guiActive = true)]
 		public string MagneticTorque = "";
 		[KSPField]
-		public string ReferenceTransform = "DockBase";
+		public string ReferenceTransform = "DockBase"; // NO_LOCALIZATION
 
 		[KSPField(isPersistant = true)]
 		public bool MagnetsEnabled = true;
@@ -74,13 +75,15 @@ namespace FlexoTubes
 		private float frameDist;
 		private float frameRot;
 
-		private const string extendName = "Extend";
+        #region  NO_LOCALIZATION
+        private const string extendName = "Extend";
 		private const string yTranslateName = "TranslateYAxis";
 		private const string xTranslateName = "TranslateXAxis";
 		private const string rotYName = "RotateYAxis";
 		private const string rotXName = "RotateXAxis";
+        #endregion
 
-		public int lastXTransFrame;
+        public int lastXTransFrame;
 		public int lastYTransFrame;
 		public int lastYRotFrame;
 		public int lastXRotFrame;
@@ -115,20 +118,22 @@ namespace FlexoTubes
 
 		new public string GetContractObjectiveType()
 		{
-			return "Dock";
+			return Localizer.Format("#LOC_FlexDock_1");
 		}
 		
 		public override void OnStart(PartModule.StartState state)
 		{
 			base.OnStart(state);
-
-			if (state == StartState.Editor)
+            Status = Localizer.Format("#LOC_FlexDock_2");
+            Magnets = Localizer.Format("#LOC_FlexDock_3");
+            if (state == StartState.Editor)
 				return;
 
-			anim = part.FindModelAnimators()[0];
-			referenceTranslateTransform = part.FindModelTransform("ReferenceTransform");
-			referenceRotationTransform = part.FindModelTransform("ReferenceRotation");
-			dockBaseTransform = part.FindModelTransform(ReferenceTransform);
+
+            anim = part.FindModelAnimators()[0];
+			referenceTranslateTransform = part.FindModelTransform("ReferenceTransform"); // NO_LOCALIZATION
+			referenceRotationTransform = part.FindModelTransform("ReferenceRotation"); // NO_LOCALIZATION
+            dockBaseTransform = part.FindModelTransform(ReferenceTransform);
 
 			frameDist = (maxTranslate * 2) / (float)((frames - 1) / 2);
 			frameRot = (maxRotate * 2) / (float)((frames - 1) / 2);
@@ -149,10 +154,10 @@ namespace FlexoTubes
 			{
 				acquireForce = 0;
 				acquireTorque = 0;
-				Magnets = "Disabled";
+				Magnets = Localizer.Format("#LOC_FlexDock_4");
 			}
 			else
-				Magnets = "Enabled";
+				Magnets = Localizer.Format("#LOC_FlexDock_3");
 
 			if (IsDeployed)
 			{
@@ -193,7 +198,7 @@ namespace FlexoTubes
 			}
 			else
 			{
-				if (this.state == "PreAttached")
+				if (this.state == Localizer.Format("#LOC_FlexDock_5"))
 				{
 					Events["Deploy"].active = false;
 					Events["Retract"].active = false;
@@ -205,11 +210,13 @@ namespace FlexoTubes
 		{
 			string s = base.GetInfo();
 
-			s += string.Format("\nMax Translation: {0:F2}m", maxTranslate);
+			s += string.Format(Localizer.Format("#LOC_FlexDock_6") +
+				"{0:F2}m", maxTranslate);  // NO_LOCALIZATION
 
-			s += string.Format("\nMax Rotation: {0:F2}°", maxRotate);
+            s += string.Format(Localizer.Format("#LOC_FlexDock_7") +
+				"{0:F2}°", maxRotate); // NO_LOCALIZATION
 
-			return s;
+            return s;
 		}
 
 		public override void OnUpdate()
@@ -267,10 +274,10 @@ namespace FlexoTubes
 
 				if (engagingDominantPort)
 				{
-					if (otherNode.state == "Acquire")
+					if (otherNode.state == Localizer.Format("#LOC_FlexDock_8"))
 					{
 						engagingDominantPort = false;
-						state = "Acquire (dockee)";
+						state = Localizer.Format("#LOC_FlexDock_9");
 					}
 				}
 			}
@@ -333,10 +340,10 @@ namespace FlexoTubes
 						}
 					}
 
-					if (otherNode.state == "Ready")
+					if (otherNode.state == Localizer.Format("#LOC_FlexDock_10"))
 					{
 						engagingDominantPort = true;
-						state = "Ready";
+						state = Localizer.Format("#LOC_FlexDock_10");
 						if (setRest)
 							setRestPosition(1);
 						break;
@@ -356,37 +363,37 @@ namespace FlexoTubes
 		private string setStatus()
 		{
 			if (moving)
-				return "Moving...";
+				return Localizer.Format("#LOC_FlexDock_11");
 
 			switch (state)
 			{
 				case "PreAttached":
 					Events["Deploy"].active = false;
 					Events["Retract"].active = false;
-					return "Attached";
+					return Localizer.Format("#LOC_FlexDock_12");
 				case "Docked (same vessel)":
 				case "Docked (docker)":
 				case "Docked (dockee)":
 					Events["Deploy"].active = false;
 					Events["Retract"].active = false;
-					return "Docked";
+					return Localizer.Format("#LOC_FlexDock_13");
 				case "Acquire":
-					return "Acquiring...";
+					return Localizer.Format("#LOC_FlexDock_14");
 				case "Acquire (dockee)":
-					return "Acquiring (dockee)...";
+					return Localizer.Format("#LOC_FlexDock_15");
 			}
 
 			if (IsDeployed)
 			{
 				Events["Deploy"].active = false;
 				Events["Retract"].active = true;
-				return "Deployed (Flexible Mode)";
+				return Localizer.Format("#LOC_FlexDock_16");
 			}
 			else
 			{
 				Events["Deploy"].active = true;
 				Events["Retract"].active = false;
-				return "Retracted (Basic Mode)";
+				return Localizer.Format("#LOC_FlexDock_2");
 			}
 		}
 
@@ -671,7 +678,8 @@ namespace FlexoTubes
 			}
 		}
 
-		[KSPEvent(guiActive = true, guiActiveUnfocused = true, externalToEVAOnly = true, active = true)]
+        #region NO_LOCALIZATION
+        [KSPEvent(guiActive = true, guiActiveUnfocused = true, externalToEVAOnly = true, active = true)]
 		public void Deploy()
 		{
 			if (resetting)
@@ -737,14 +745,15 @@ namespace FlexoTubes
 				minDistanceToReEngage = cachedReEngage;
 			}
 		}
+        #endregion
 
-		[KSPEvent(guiActive = true, guiActiveUnfocused = true, externalToEVAOnly = true, active = true)]
+        [KSPEvent(guiActive = true, guiActiveUnfocused = true, externalToEVAOnly = true, active = true)]
 		public void ToggleMagnets()
 		{
 			if (MagnetsEnabled)
 			{
 				MagnetsEnabled = false;
-				Magnets = "Disabled";
+				Magnets = Localizer.Format("#LOC_FlexDock_4");
 				acquireForce = 0;
 				acquireTorque = 0;
 
@@ -757,7 +766,7 @@ namespace FlexoTubes
 			else
 			{
 				MagnetsEnabled = true;
-				Magnets = "Enabled";
+				Magnets = Localizer.Format("#LOC_FlexDock_3");
 				if (IsDeployed)
 				{
 					acquireForce = activeForce;

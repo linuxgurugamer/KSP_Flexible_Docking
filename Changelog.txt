@@ -1,0 +1,79 @@
+Changelog
+
+8.0.1
+	Adoption by Linuxgurugamer
+	Added Changelog and updated with details from older releases
+	Changed version in version file to start with 8.0.0, since CKAN & Spacedock both show that version 
+	Added depreciated textures from the Squad zDeprecated 
+		NOTE: The owners of KSP, through their Community Manager Ghostii_Space, confirmed 2 years ago 
+				that reusing old Squad assets are ok
+	Merged in patch to use the depreciated textures
+	Localized the mod
+
+8.0
+	Update for KSP 1.8
+
+7.0
+	Restock support
+		Includes white list file for standard stock docking port textures
+
+6.0
+	Update for KSP 1.4
+
+5.0
+	Updated for KSP 1.3
+	Fix a bug when two flexible docking ports try to dock together
+
+4.0
+	Fix reference up direction
+		Fixes error with docking ports rotated along their long axis
+
+3.0
+	Update for KSP 1.2
+	Recognize ports as contract objectives
+	Move parts to Coupling category
+
+2.0
+	Fix an issue with the Jr. docking port deploy animation
+	Use the max rotation value set in the part config file
+
+1.0
+	Change installation folder name
+		Make sure any old installations are completely removed
+	Fix a few texture and model issues
+	Finalize part configs
+		Tech node positions
+		Part cost, mass, attach node positions
+		Part title and description
+		Part agency
+	Add Module Manager patch
+		Connected Living Space compatibility
+		Stock contract Docking port requests
+	Add KSP-AVC .version file
+
+0.4
+	Add new 2.5m docking port
+		Docks to the ClampoTron Sr Port
+		Uses stock texture assets
+	New fix for non-dominant ports
+		Allows for larger activation distance
+
+0.3
+	Fix incorrect folder name
+
+0.2
+	Add new flexo dock jr part
+		Compatible with the standard Clampotron Jr.
+	Part folders have changed locations; delete all existing files
+	Fix attachment nodes
+		Should fix some FAR issues
+	Fix docking when the flexible port is not dominant
+	Fix errors when docking two flexible ports together
+	Fix startup errors
+
+0.1
+	A flexible docking port for testing purposes
+		All aspects of this part are subject to change in future versions
+	This 1.25m docking port shares its texture with the stock clampotron
+	When retracted this behaves as a normal docking port, with the option to disable the magnets
+	When extended it allows a limited amount of translation and rotation of the docking port head
