@@ -1,5 +1,8 @@
 Changelog
 
+8.0.1.1
+	Renamed dll to enable CKAN to be able to detect manually installed copies of the mod
+
 8.0.1
 	Adoption by Linuxgurugamer
 	Added Changelog and updated with details from older releases
